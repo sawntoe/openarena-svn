@@ -1,0 +1,272 @@
+/*
+===========================================================================
+Copyright (C) 2007 Open Arena Team
+
+This file is part of Open Arena.
+
+Open Arena is free software; you can redistribute it
+and/or modify it under the terms of the GNU General Public License as
+published by the Free Software Foundation; either version 2 of the License,
+or (at your option) any later version.
+
+Open Arena is distributed in the hope that it will be
+useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Foobar; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+===========================================================================
+*/
+
+#include "ui/menudef.h"
+
+{
+  assetGlobalDef {
+    	font "gfx/2d/bigchars" 16				
+    	smallFont "gfx/2d/bigchars" 12				
+    	bigFont "gfx/2d/bigchars" 20				
+	cursor "ui/assets/cursor"			
+	itemFocusSound MP_SND_HOVER		
+	shadowColor 0.0 0.0 0.0 0.25			
+  	}
+							   
+
+
+
+
+menuDef {
+    	name "main"
+	background MP_BACKGROUND	
+    	fullScreen MENU_TRUE				
+	rect 0 0 640 480
+    	visible MENU_TRUE
+    	focusColor MP_FOCUSCOLOR			
+
+						
+	onOpen { 
+		setitemcolor fadebox backcolor 0 0 0 1 ; 
+		playlooped "music/menu" ;
+		uiScript stopRefresh ;
+		}
+	
+
+itemDef {
+      	name titleness
+      	text MISSIONPACK_TITLE
+      	style 0	
+	type 0
+	textstyle 6
+      	textscale 1
+      	rect 0 65 1 1
+      	textalign 0		
+     	textalignx 48 	
+	textaligny 90        
+	forecolor MP_TITLECOLOR
+	visible 1 
+	}
+
+// The Bar of Buttons
+
+itemDef {
+      	name button2
+      	text "New Game"
+      	style 0
+	type 1
+	textstyle 3
+      	textscale 0.3
+      	rect 73 177 163 34
+      	textalign 0		
+     	textalignx 5 	
+	textaligny 20   
+	forecolor MP_TEXTCOLOR   
+	visible 1 
+	      action
+      		{
+	        play MP_SND_SELECT; 
+ 	
+      		}
+	}
+
+itemDef {
+      	name button3
+      	text "Create Server"
+      	style 0
+	type 1
+	textstyle 3
+      	textscale 0.3
+      	rect 73 209 163 34
+      	textalign 0		
+     	textalignx 5  	
+	textaligny 20   
+	forecolor MP_TEXTCOLOR    
+	visible 1 
+	      action
+      		{
+	        play MP_SND_SELECT; 
+		open createserver;
+		close menu;
+      		}
+	}
+
+itemDef {
+      	name button4
+      	text "Join Server"
+      	style 0
+	type 1
+	textstyle 3
+      	textscale 0.3
+      	rect 73 241 163 34
+      	textalign 0		
+     	textalignx 5  	
+	textaligny 20   
+	forecolor MP_TEXTCOLOR    
+	visible 1 
+	      action
+      		{
+	        play MP_SND_SELECT; 
+		open joinserver;
+		close menu;
+      		}
+	}
+
+itemDef {
+      	name button5
+      	text "Configuration"
+      	style 0
+	type 1
+	textstyle 3
+      	textscale 0.3
+      	rect 73 273 163 34
+      	textalign 0		
+     	textalignx 5  	
+	textaligny 20   
+	forecolor MP_TEXTCOLOR    
+	visible 1 
+	      action
+      		{
+	        play MP_SND_SELECT; 
+		open configuration;
+		close menu;
+      		}
+	}
+
+itemDef {
+      	name button6
+      	text "Player"
+      	style 0
+	type 1
+	textstyle 3
+      	textscale 0.3
+      	rect 73 305 163 34
+      	textalign 0		
+     	textalignx 5  	
+	textaligny 20    
+	forecolor MP_TEXTCOLOR   
+	visible 1 
+	      action
+      		{
+	        play MP_SND_SELECT; 
+		open player;
+		close menu;
+      		}
+	}
+itemDef {
+      	name button7
+      	text "Custom game"
+      	style 0
+	type 1
+	textstyle 3
+      	textscale 0.3
+      	rect 73 337 163 34
+      	textalign 0		
+     	textalignx 5  	
+	textaligny 20  
+	forecolor MP_TEXTCOLOR     
+	visible 1 
+	      action
+      		{
+	        play MP_SND_SELECT; 
+      		}
+	}
+
+itemDef {
+      	name button8
+      	text "Help"
+      	style 0
+	type 1
+	textstyle 3
+      	textscale 0.3
+      	rect 73 369 163 34
+      	textalign 0		
+     	textalignx 5  	
+	textaligny 20  
+	forecolor MP_TEXTCOLOR     
+	visible 1 
+	      action
+      		{
+	        play MP_SND_SELECT; 
+      		}
+	}
+
+itemDef {
+      	name button10
+      	text "Quit"
+      	style 0
+	type 1
+	textstyle 3
+      	textscale 0.3
+      	rect 73 433 163 34
+      	textalign 0		
+     	textalignx 5  	
+	textaligny 20  
+	forecolor MP_TEXTCOLOR     
+	visible 1 
+	      action
+      		{
+	        play MP_SND_SELECT; 
+		uiscript "quit";
+      		}
+	}
+
+itemDef {
+      	name button9
+      	text "Movies"
+      	style 0
+	type 1
+	textstyle 3
+      	textscale 0.3
+      	rect 73 401 163 34
+      	textalign 0		
+     	textalignx 5  	
+	textaligny 20  
+	forecolor MP_TEXTCOLOR     
+	visible 1 
+	      action
+      		{
+	        play MP_SND_SELECT; 
+      		}
+	}
+
+
+itemDef {
+      	name warning
+      	text "WORK IN PROGRESS, lots of broken and missing menus; beware!"
+      	style 0	
+	type 1
+	textstyle 6
+      	textscale .2
+      	rect 0 0 32 12 
+      	textalign 3		
+     	textalignx 20  	
+	textaligny 32        
+	forecolor 1 1 1 1
+	visible 1 
+	}
+}
+}
+}
+}
+}
+}

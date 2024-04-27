@@ -1,0 +1,351 @@
+/*
+===========================================================================
+Copyright (C) 2007 Open Arena Team
+
+This file is part of Open Arena.
+
+Open Arena is free software; you can redistribute it
+and/or modify it under the terms of the GNU General Public License as
+published by the Free Software Foundation; either version 2 of the License,
+or (at your option) any later version.
+
+Open Arena is distributed in the hope that it will be
+useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Open Arena; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+===========================================================================
+*/
+
+#include "ui/menudef.h"
+
+// classic H*L style menu
+
+{
+  menuDef {
+	name player
+	visible 0
+	fullscreen 1
+	background MP_BACKGROUND
+	focusColor MP_FOCUSCOLOR
+	rect 0 0 640 480
+	outOfBoundsClick  
+	style 0
+	onOpen	{
+		uiScript update "ui_GetName";
+		}
+	onClose	{
+		uiScript update "ui_SetName";
+		}
+	onEsc	{
+		close player;
+		open main;
+		}
+
+itemDef {
+	name titleness
+	text "Customize"
+	style 0	
+	type 0
+	textstyle 6
+	textscale 1
+	rect 0 65 1 1
+	textalign 0		
+	textalignx 48 	
+	textaligny 40        
+	forecolor MP_TITLECOLOR
+	visible 1 
+	}
+
+// The Bar of Buttons
+
+itemDef {
+	name advoptions
+	text "Done"
+	style 0
+	type 1
+	textstyle 3
+	textscale 0.3
+	rect 52 145 163 34
+	textalign 0		
+	textalignx 5  	
+	textaligny 20      
+	backcolor 0 0 0 0
+	forecolor MP_TEXTCOLOR
+	visible 1 
+	      action
+		{
+	        play MP_SND_SELECT; 
+		close player;
+		open main;
+		}
+	}
+
+itemDef {
+	name button2
+	text "Adv Options"
+	style 0
+	type 1
+	textstyle 3
+	textscale 0.3
+	rect 52 177 163 34
+	textalign 0		
+	textalignx 5 	
+	textaligny 20   
+	forecolor MP_TEXTCOLOR  
+	visible 1
+	action	{
+	        play MP_SND_SELECT; 
+		}
+	}
+
+itemDef	{
+	name playerlist
+	rect 578 160 56 196
+	group grparenatype	
+	type ITEM_TYPE_LISTBOX
+	style WINDOW_STYLE_FILLED
+	elementwidth 32
+	elementheight 32
+	cvarTest "ui_q3model"
+	hideCVar { "1" }
+	textscale .20
+	elementtype LISTBOX_IMAGE
+	feeder FEEDER_HEADS
+	textalign 0
+	background "ui/assets/scrollbar"
+	textaligny 14
+	border 1
+	bordercolor   MP_BOX_BORDER
+	forecolor     MP_BOX_FORE
+	backcolor     MP_BOX_BACK
+	outlinecolor  MP_BOX_OUTLINE
+	visible 1
+	columns 1
+	2 190 25
+	}
+
+itemDef	{
+	name playerlist
+	rect 571 118 56 339
+	group grparenatype	
+	type ITEM_TYPE_LISTBOX
+	style WINDOW_STYLE_FILLED
+	elementwidth 32
+	elementheight 32
+	cvarTest "ui_q3model"
+	showCVar { "1" }
+	textscale .20
+	elementtype LISTBOX_IMAGE
+	feeder FEEDER_Q3HEADS
+	textalign 0
+	background "ui/assets/scrollbar"
+	textaligny 14
+	border 1
+	bordercolor   MP_BOX_BORDER
+	forecolor     MP_BOX_FORE
+	backcolor     MP_BOX_BACK
+	outlinecolor  MP_BOX_OUTLINE
+	visible 1
+	columns 1
+	2 190 25
+	}
+
+itemDef	{
+	name themodel
+	ownerdraw UI_PLAYERMODEL
+	rect 361 118 217 339
+	style WINDOW_STYLE_FILLED
+	style 1
+	decoration 
+	border 1
+	bordercolor   MP_BOX_BORDER
+	forecolor     MP_BOX_FORE
+	backcolor     MP_BOX_BACK
+	outlinecolor  MP_BOX_OUTLINE
+	visible 1
+	}
+
+itemDef	{
+	name mappreviewtext
+	text "Model:"
+	style 0	
+	type 0
+	textstyle 6
+	textscale .237
+	rect 382 116 1 1
+	textalign 0		
+	textalignx 6	
+	textaligny 0        
+	forecolor MP_BOX_HEADERCOLOR
+	visible 1
+	decoration
+	}
+
+// PLAYER NAME
+itemDef	{
+	name hostnamer
+	style 0	
+	text "Player Name:"
+	style 0	
+	type 0
+	textstyle 6
+	textscale .25
+	rect 212 137 1 1
+	textalign 0		
+	textalignx 6	
+	textaligny 18        
+	forecolor MP_BOX_HEADERCOLOR
+	visible 1
+	decoration
+	}
+
+itemDef	{
+	name settin
+	style WINDOW_STYLE_FILLED
+	type ITEM_TYPE_EDITFIELD
+	text ""
+	cvar "ui_Name"
+	maxChars 40
+	maxPaintChars 10
+	background "ui/assets/scrollbar"
+	textstyle 6
+	textscale .24
+	rect 212 166 150 24
+	textalign 0		
+	textalignx 6	
+	textaligny 18        
+	border 1
+	bordercolor   MP_BOX_BORDER
+	forecolor     MP_BOX_FORE
+	backcolor     MP_BOX_BACK
+	outlinecolor  MP_BOX_OUTLINE
+	visible 1 
+	}
+
+
+// MAX PRAYERS
+itemDef	{
+	name hanidcap
+	style 0	
+	text "Handicap:"
+	style 0	
+	type 0
+	textstyle 6
+	textscale .25
+	rect 212 200 1 1
+	textalign 0		
+	textalignx 6	
+	textaligny 18        
+	forecolor MP_BOX_HEADERCOLOR
+	visible 1
+	decoration
+	}
+
+itemDef	{
+	name settin2
+	style WINDOW_STYLE_FILLED
+	ownerdraw UI_HANDICAP
+	type ITEM_TYPE_EDITFIELD
+	text ""
+	cvar "handicap"
+	maxChars 32
+	maxPaintChars 10
+	background "ui/assets/scrollbar"
+	textstyle 6
+	maxchars 4
+	textscale .24
+	rect 212 229 150 24
+	textalign 0		
+	textalignx 6	
+	textaligny 18        
+	border 1
+	bordercolor   MP_BOX_BORDER
+	forecolor     MP_BOX_FORE
+	backcolor     MP_BOX_BACK
+	outlinecolor  MP_BOX_OUTLINE
+	visible 1 
+	}
+
+itemDef	{
+	name password
+	text "Model type:"
+	style 0	
+	type 0
+	textstyle 6
+	textscale .25
+	rect 212 263 1 1
+	textalign 0		
+	textalignx 6	
+	textaligny 18        
+	forecolor MP_BOX_HEADERCOLOR
+	visible 1
+	decoration
+	}
+
+itemDef	{
+	name arenatype
+	type ITEM_TYPE_MULTI	
+	cvar "ui_q3model"
+	cvarFloatList { "Team Game" 0 "DM Game" 1 }
+	text ""
+	style WINDOW_STYLE_FILLED
+	background "ui/assets/scrollbar"
+	textstyle 6
+	textscale .24
+	rect 212 287 150 24
+	textalign 0		
+	textalignx 6	
+	textaligny 18        
+	border 1
+	bordercolor   MP_BOX_BORDER
+	forecolor     MP_BOX_FORE
+	backcolor     MP_BOX_BACK
+	outlinecolor  MP_BOX_OUTLINE
+	visible 1 
+	}
+
+itemDef	{
+	name teamname
+	style 0
+	text "Team Name:"
+	type 0
+	textstyle 6
+	textscale .25
+	rect 212 326 1 1
+	textalign 0
+	textalignx 6
+	textaligny 18
+	forecolor MP_BOX_HEADERCOLOR
+	visible 1
+	cvarTest "ui_q3model"
+	showCvar { "0" }
+	}
+
+itemDef	{
+	name teamshit
+	style 1
+	type 1
+	ownerdraw UI_CLANNAME
+	text ""
+	textstyle 6
+	textscale .24
+	rect 212 350 150 24
+	textalign 0
+	textalignx 6
+	textaligny 18
+	border 1
+	bordercolor   MP_BOX_BORDER
+	forecolor     MP_BOX_FORE
+	backcolor     MP_BOX_BACK
+	outlinecolor  MP_BOX_OUTLINE
+	visible 1
+	cvarTest "ui_q3model"
+	showCvar { "0" }
+	}
+
+}
+}

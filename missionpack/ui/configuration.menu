@@ -1,0 +1,187 @@
+/*
+===========================================================================
+Copyright (C) 2007 Open Arena Team
+
+This file is part of Open Arena.
+
+Open Arena is free software; you can redistribute it
+and/or modify it under the terms of the GNU General Public License as
+published by the Free Software Foundation; either version 2 of the License,
+or (at your option) any later version.
+
+Open Arena is distributed in the hope that it will be
+useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Open Arena; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+===========================================================================
+*/
+
+#include "ui/menudef.h"
+
+{
+menuDef	{
+	name "configuration"
+	visible 0
+	fullscreen 1
+	background MP_BACKGROUND	
+	focusColor MP_FOCUSCOLOR
+	rect 0 0 640 480
+	style 0
+	onOpen { }
+	onEsc	{ 
+		close configuration;
+		open main
+		}
+
+
+itemDef {
+      	name titleness
+      	text "Configuration"
+      	style 0	
+	type 0
+	textstyle 6
+      	textscale 1
+      	rect 0 65 1 1
+      	textalign 0		
+     	textalignx 48 	
+	textaligny 40        
+	forecolor MP_TITLECOLOR
+	visible 1 
+	}
+
+// The Bar of Buttons
+
+itemDef {
+      	name button1
+      	text "Controls"
+      	style 0
+	type 1
+	textstyle 3
+      	textscale 0.3
+      	rect 52 145 163 34
+      	textalign 0		
+     	textalignx 5  	
+	textaligny 20      
+	backcolor 0 0 0 0
+	forecolor MP_TEXTCOLOR
+	visible 1 
+	      action
+      		{
+	        play "ui/assets/select.wav"; 
+	       		open controls;
+		close configuration;
+      		}
+	}
+
+itemDef {
+      	name button2
+      	text "Audio"
+      	style 0
+	type 1
+	textstyle 3
+      	textscale 0.3
+      	rect 52 177 163 34
+      	textalign 0		
+     	textalignx 5 	
+	textaligny 20   
+	forecolor MP_TEXTCOLOR
+	visible 1 
+	      action
+      		{
+	        play "ui/assets/select.wav"; 
+		open audio;
+		close configuration;
+
+      		}
+	}
+
+itemDef {
+      	name button3
+      	text "Video"
+      	style 0
+	type 1
+	textstyle 3
+      	textscale 0.3
+      	rect 52 209 163 34
+      	textalign 0		
+     	textalignx 5  	
+	textaligny 20   
+	forecolor MP_TEXTCOLOR  
+	visible 1 
+	      action
+      		{
+	        play "ui/assets/select.wav"; 
+		open videomodes;
+		close configuration;
+      		}
+	}
+
+
+itemDef {
+      	name button4
+      	text "Content control"
+      	style 0
+	type 1
+	textstyle 3
+      	textscale 0.3
+      	rect 52 241 163 34
+      	textalign 0		
+     	textalignx 5  	
+	textaligny 20   
+	forecolor MP_TEXTCOLOR  
+	visible 1 
+	      action
+      		{
+	        play "ui/assets/select.wav"; 
+		open contentcontrol;
+		close configuration;
+      		}
+	}
+
+itemDef {
+      	name button5
+      	text "Options"
+      	style 0
+	type 1
+	textstyle 3
+      	textscale 0.3
+      	rect 52 273 163 34
+      	textalign 0		
+     	textalignx 5  	
+	textaligny 20   
+	forecolor MP_TEXTCOLOR  
+	visible 1 
+	      action
+      		{
+	        play "ui/assets/select.wav";
+	        open options;
+		close configuration;
+      		}
+	}
+
+itemDef {
+      	name button6
+      	text "Done"
+      	style 0
+	type 1
+	textstyle 3
+      	textscale 0.3
+      	rect 52 305 163 34
+      	textalign 0		
+     	textalignx 5  	
+	textaligny 20    
+	forecolor MP_TEXTCOLOR 
+	visible 1 
+	      action
+      		{
+	        play "ui/assets/select.wav"; 
+		close configuration;
+		open main;
+      		}
+	}
+
+}

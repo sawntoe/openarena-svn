@@ -1,0 +1,185 @@
+male
+
+getflag		
+{
+	sound\voices\rott\getthatflag.ogg	"Get that flag!"
+}
+
+offense	
+{
+	sound\voices\rott\youreonoffense.ogg	"You are on offense."
+}
+
+defend		
+{
+	sound\voices\rott\defendthebase.ogg	"Defend the base."
+}
+
+defendflag		
+{
+	sound\voices\rott\defendflag.ogg	"Defend our flag."
+}
+
+patrol		
+{
+	sound\voices\rott\gopatrol.ogg	"Go patrol the area"
+}
+
+followme		
+{
+	sound\voices\rott\followme.ogg	"Follow me."
+	sound\voices\rott\coverme.ogg	"Cover me."
+}
+
+yes
+{
+	sound\voices\rott\yes.ogg	"Yes."
+	sound\voices\rott\affirmative.ogg	"Affirmative."
+	sound\voices\rott\okay.ogg	"Okay"
+}
+
+no
+{
+	sound\voices\rott\no.ogg	"No."
+	sound\voices\rott\negative.ogg	"Negative."
+}
+
+ihaveflag	
+{
+	sound\voices\rott\haveflag.ogg	"I have the flag!"
+}
+
+baseattack		
+{
+	sound\voices\rott\baseunderattack.ogg	"Our base is under attack!"
+}
+
+enemyhasflag	
+{
+	sound\voices\rott\haveourflag.ogg	"They have our flag!"
+
+}
+
+ongetflag		
+{
+	sound\voices\rott\gettingourflag.ogg	"Getting our flag" // oops, this was supposed to be for one flag ctf but we didn't have a getting the flag...
+}
+
+onoffense	
+{
+	sound\voices\rott\wanttoattack.ogg	"I want to attack!"
+	sound\voices\rott\imgoingin.ogg	"I'm goin' in"
+}
+
+ondefense	
+{
+	sound\voices\rott\illcoverbase.ogg	"I'll cover our base"
+}
+
+onpatrol	
+{
+	sound\voices\rott\justroaming.ogg	"Just roaming around"
+}
+
+startleader		
+{
+	sound\voices\rott\imtheleader.ogg	"I'm the leader"
+}
+
+stopleader		
+{
+	sound\voices\rott\dontwannabeleader.ogg	"I don't want to be the leader anymore."
+}
+
+kill_insult
+{
+	
+
+}
+
+taunt {
+	
+
+}
+
+death_insult {
+	
+}
+
+kill_gauntlet {
+
+}
+
+praise {
+	
+	}
+
+
+camp		
+{
+	sound\voices\rott\camphere.ogg	"Camp here."
+
+}
+
+returnflag		
+{
+	sound\voices\rott\getflag.ogg	"Get our flag!"
+
+}
+
+whoisleader			
+{
+	sound\voices\rott\whoisleader.ogg	"Who is our leader?"
+
+}
+
+followflagcarrier		
+{
+	sound\voices\rott\keepupcarrier.ogg	"Keep up with the carrier."
+}
+
+inposition			
+{
+	sound\voices\rott\inposition.ogg	"I'm in position."
+}
+
+wantondefense		
+{
+	sound\voices\rott\wanttodefend.ogg	"I want to defend."
+}
+
+wantonoffense		
+{
+	sound\voices\rott\wanttoattack.ogg	"I want to attack."
+}
+
+wantonpatrol	
+{
+	sound\voices\rott\wanttoroam.ogg	"I want to roam around."
+}
+
+oncamp 
+{
+	sound\voices\rott\imcampinghere.ogg	"I'm campin here"
+}
+
+onfollow
+{
+	sound\voices\rott\imfollowing.ogg	"I'm following"
+}
+
+onfollowcarrier
+{
+	sound\voices\rott\followingcarrier.ogg	"Following the carrier."
+}
+
+onreturnflag
+{
+	sound\voices\rott\gettingourflag.ogg	"Getting our flag!"
+}
+
+harvest 
+{
+	sound\voices\rott\getsomeskulls.ogg	"Get some skulls"
+
+}

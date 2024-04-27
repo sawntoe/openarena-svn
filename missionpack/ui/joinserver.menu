@@ -1,0 +1,413 @@
+/*
+===========================================================================
+Copyright (C) 2007 Open Arena Team
+
+This file is part of Open Arena.
+
+Open Arena is free software; you can redistribute it
+and/or modify it under the terms of the GNU General Public License as
+published by the Free Software Foundation; either version 2 of the License,
+or (at your option) any later version.
+
+Open Arena is distributed in the hope that it will be
+useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Open Arena; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+===========================================================================
+*/
+
+#include "ui/menudef.h"
+
+{
+menuDef	{
+	name "joinserver"
+	visible 0
+	fullscreen 1
+	background MP_BACKGROUND	
+	focusColor MP_FOCUSCOLOR
+	rect 0 0 640 480
+	style 0
+	onOpen	{ uiScript UpdateFilter }
+	onEsc	{ uiScript closeJoin }
+	
+itemDef {
+	name titleness
+	text "Open Arena"
+	style 0	
+	type 0
+	textstyle 3
+	textscale 1
+	rect 0 35 1 1
+	textalign 0		
+	textalignx 32	
+	textaligny 40        
+	forecolor MP_TITLECOLOR
+	visible 1 
+	}
+
+itemDef	{
+	name multiplayer
+	text "m        u       l       t       i       p       l       a       y       e        r"
+	style 0
+	type 0
+	textstyle 2
+	textscale .2
+	rect 0 55 1 1
+	textalign 0
+	textalignx 40
+	textaligny 40
+	forecolor MP_TITLECOLOR
+	visible 1
+	}
+
+itemDef {
+	name advoptions
+	text "Join"
+	style 0
+	type 1
+	textstyle 3
+	textscale 0.3
+	rect 590 450 50 10
+	textalign 0
+	textaligny 10	
+	backcolor 0 0 0 0
+	forecolor MP_TEXTCOLOR
+	visible 1 
+	action	{
+	        play MP_SND_SELECT; 
+		uiScript JoinServer;
+		}
+	}
+
+itemDef {
+	name Create
+	text "Create"
+	style 0
+	type 1
+	textstyle 3
+	textscale 0.27
+	rect 360 30 50 10
+	textalign 0
+	textaligny 10		
+	forecolor MP_TEXTCOLOR   
+	visible 1
+	action	{
+	        play MP_SND_SELECT; 
+		close joinserver;
+		open createserver;
+		}
+	}
+
+itemDef {
+	name button3
+	text "Info"
+	style 0
+	type 1
+	textstyle 3
+	textscale 0.27
+	rect 500 30 50 10
+	textalign 0
+	textaligny 10
+	forecolor MP_TEXTCOLOR     
+	visible 1 
+	action	{
+	        play MP_SND_SELECT; 
+		open serverinfo;
+		}
+	}
+
+itemDef	{
+	name empty
+	text "Show Empty:"
+	type ITEM_TYPE_YESNO
+	cvar "ui_browserShowEmpty"
+	textstyle 3
+	textscale 0.27
+	rect 360 90 50 10
+	textalign 0
+	textaligny 10
+	forecolor MP_TEXTCOLOR
+	visible 1
+	action	{
+		uiScript RefreshFilter;
+		}
+	}
+
+itemDef	{
+	name full
+	text "Show Full:"
+	type ITEM_TYPE_YESNO
+	cvar "ui_browserShowFull"
+	textstyle 3
+	textscale 0.27
+	rect 500 90 50 10
+	textalign 0
+	textaligny 10
+	forecolor MP_TEXTCOLOR
+	visible 1
+	action	{
+		uiScript RefreshFilter;
+		}
+	}
+
+itemDef {
+	name button4
+	text "Refresh"
+	style 0
+	type 1
+	textstyle 3
+	textscale 0.27
+	rect 500 50 50 10
+	textalign 0
+	textaligny 10
+	forecolor MP_TEXTCOLOR     
+	visible 1 
+	action	{
+		uiScript RefreshFilter;
+		}
+	}
+
+itemDef {
+	name button5
+	text "Update"
+	style 0
+	type 1
+	textstyle 3
+	textscale 0.27
+	rect 360 50 50 10
+	textalign 0
+	textaligny 10	
+	forecolor MP_TEXTCOLOR     
+	visible 1 
+	action	{
+	        play MP_SND_SELECT; 
+		uiScript RefreshServers;
+		}
+	}
+
+itemDef {
+      	name button6
+      	style 0
+	ownerdraw UI_NETSOURCE
+	textstyle 3
+      	textscale 0.27
+      	rect 360 70 50 10
+      	textalign 0
+	textaligny 10
+	forecolor MP_TEXTCOLOR    
+	visible 1 
+	action	{ play MP_SND_SELECT }
+	}
+
+itemDef {
+	name button7
+	text "Add Server"
+	style 0
+	type 1
+	textstyle 3
+	textscale 0.27
+	rect 400 450 100 10
+	textalign 0
+	textaligny 10	
+	forecolor MP_TEXTCOLOR      
+	visible 1 
+	action	{
+	        play MP_SND_SELECT;
+		uiScript CreateFavorite
+		}
+	}
+
+itemDef {
+	name faves
+	text "New Flavorit"
+	style 0
+	type 1
+	textstyle 3
+	textscale 0.27
+	rect 180 450 100 10
+	textalign 0
+	textaligny 10		
+	forecolor MP_TEXTCOLOR      
+	visible 1 
+	action	{
+	        play MP_SND_SELECT;
+		open createfavorite
+		}
+	}
+
+itemDef {
+      	name button8
+	text "Type:"
+	ownerdraw UI_JOINGAMETYPE
+      	style 0
+	textstyle 3
+      	textscale 0.27
+      	rect 500 70 140 10
+      	textalign 0
+	textaligny 10
+	forecolor MP_TEXTCOLOR      
+	visible 1 
+	action	{
+		play MP_SND_SELECT; 
+		uiScript ServerSort;
+      		}
+	}
+
+itemDef {
+	name button9
+	text "Back"
+	style 0
+	type 1
+	textstyle 3
+	textscale 0.27
+	rect 20 450 50 10
+	textalign 0
+	textaligny 10	
+	forecolor MP_TEXTCOLOR      
+	visible 1 
+	action	{
+	        play MP_SND_SELECT; 
+		close joinserver;
+		open main;
+		}
+	}
+
+itemDef	{
+	name serverlist
+	rect 10 139 620 297
+	type ITEM_TYPE_LISTBOX
+	style WINDOW_STYLE_FILLED
+	elementwidth 450
+	elementheight 14
+	textscale .20
+	elementtype LISTBOX_TEXT
+	feeder FEEDER_SERVERS
+	textalign 0
+	background "ui/assets/scrollbar"
+	textaligny 14
+	border 1
+	bordercolor   MP_BOX_BORDER
+	forecolor     MP_BOX_FORE
+	backcolor     MP_BOX_BACK
+	outlinecolor  MP_BOX_OUTLINE
+	visible 1
+	columns 
+	5
+	1 40 0 //server-name
+	250 40 0 //map
+	480 40 0  //players
+	360 40 0 // gametype
+	550 40 0 //ping
+	doubleClick { uiScript JoinServer }
+	}
+
+itemDef	{
+	name serversort
+	text "Server Name"
+	style 0
+	type ITEM_TYPE_BUTTON
+	textscale .25
+	textalign 0
+	textaligny 10
+	rect 25 127 110 10
+	forecolor 1 1 1 1
+	visible 1
+	action 	{
+		uiScript ServerSort 0;
+		setitemcolor serversort forecolor MP_FOCUSCOLOR;
+		setitemcolor mapsort forecolor 1 1 1 1;
+		setitemcolor playersort forecolor 1 1 1 1;
+		setitemcolor gtsort forecolor 1 1 1 1;
+		setitemcolor pingsort forecolor 1 1 1 1
+		}
+	}
+
+itemDef	{
+	name mapsort
+	text "Map"
+	style 0
+	type ITEM_TYPE_BUTTON
+	textscale .25
+	textalign 0
+	textaligny 10
+	rect 275 127 110 10
+	forecolor 1 1 1 1
+	visible 1
+	action	{
+		uiscript ServerSort 1;
+		setitemcolor mapsort forecolor MP_FOCUSCOLOR;
+		setitemcolor serversort forecolor 1 1 1 1;
+		setitemcolor playersort forecolor 1 1 1 1;
+		setitemcolor gtsort forecolor 1 1 1 1;
+		setitemcolor pingsort forecolor 1 1 1 1
+		}
+	}
+
+itemDef	{
+	name playersort
+	text "Players"
+	style 0
+	type ITEM_TYPE_BUTTON
+	textscale .25
+	textalign 0
+	textaligny 10
+	rect 490 127 50 10
+	forecolor 1 1 1 1
+	visible 1
+	action	{
+		uiscript ServerSort 2;
+		setitemcolor playersort forecolor MP_FOCUSCOLOR;
+		setitemcolor serversort forecolor 1 1 1 1;
+		setitemcolor mapsort forecolor 1 1 1 1;
+		setitemcolor gtsort forecolor 1 1 1 1;
+		setitemcolor pingsort forecolor 1 1 1 1
+		}
+	}
+
+itemDef	{
+	name gtsort
+	text "Game Type"
+	style 0
+	type ITEM_TYPE_BUTTON
+	textscale .25
+	textalign 0
+	textaligny 10
+	rect 375 127 110 10
+	forecolor 1 1 1 1
+	visible 1
+	action	{
+		uiscript ServerSort 3;
+		setitemcolor gtsort forecolor MP_FOCUSCOLOR;
+		setitemcolor serversort forecolor 1 1 1 1;
+		setitemcolor mapsort forecolor 1 1 1 1;
+		setitemcolor playersort forecolor 1 1 1 1;
+		setitemcolor pingsort forecolor 1 1 1 1
+		}
+	}
+
+itemDef	{
+	name pingsort
+	text "Ping"
+	style 0
+	type ITEM_TYPE_BUTTON
+	textscale .25
+	textalign 0
+	textaligny 10
+	rect 560 127 40 10
+	visible 1
+	action	{
+		uiscript ServerSort 4;
+		setitemcolor pingsort forecolor MP_FOCUSCOLOR;
+		setitemcolor serversort forecolor 1 1 1 1;
+		setitemcolor mapsort forecolor 1 1 1 1;
+		setitemcolor playersort forecolor 1 1 1 1;
+		setitemcolor gtsort forecolor 1 1 1 1
+		}
+	}
+
+}
+}

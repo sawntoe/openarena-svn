@@ -1,0 +1,586 @@
+/*
+===========================================================================
+Copyright (C) 2007 Open Arena Team
+
+This file is part of Open Arena.
+
+Open Arena is free software; you can redistribute it
+and/or modify it under the terms of the GNU General Public License as
+published by the Free Software Foundation; either version 2 of the License,
+or (at your option) any later version.
+
+Open Arena is distributed in the hope that it will be
+useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Open Arena; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+===========================================================================
+*/
+
+#include "ui/menudef.h"
+
+{
+MenuDef	{
+	name endOfGame
+	visible 0
+	fullscreen 1
+	rect 0 0 640 480
+	background MP_BACKGROUND
+	focuscolor MP_FOCUSCOLOR
+	onClose { uiScript updateSPMenu; }
+	onEsc { close endOfGame; open skirmish; }
+	onOpen { close ingame; }
+
+itemDef	{
+	name next
+	text "Next"
+	textstyle 6
+	textscale .25
+	type ITEM_TYPE_BUTTON
+	rect 450 50 20 10
+	textalign 0
+	textaligny 10
+	forecolor MP_TEXTCOLOR
+	backcolor 0 0 0 0
+	visible 1
+	action { uiScript nextSkirmish; close endOfGame; close main }
+	}
+
+itemDef	{
+	name tomain
+	text "Back"
+	textstyle 6
+	textscale .25
+	type ITEM_TYPE_BUTTON
+	rect 295 50 20 10
+	textalign 0
+	textaligny 10
+	forecolor MP_TEXTCOLOR
+	backcolor 0 0 0 0
+	visible 1
+	action	{
+		close endofgame;
+		open skirmish;
+		}
+	}
+
+itemDef	{
+	name playagain
+	text "Replay"
+	textstyle 6
+	textscale .25
+	type ITEM_TYPE_BUTTON
+	rect 140 50 20 10
+	textalign 0
+	textaligny 10
+	forecolor MP_TEXTCOLOR
+	backcolor 0 0 0 0
+	visible 1
+	action {
+		close endofgame;
+		close skirmish;
+		uiScript skirmishStart;
+		}
+	}
+
+itemDef	{
+	name title
+	text "SCORES"
+	rect 320 125 128 10
+	textstyle 6
+	textscale .5
+	textalign 1
+	textaligny 10
+	forecolor 1 1 1 1
+	backcolor 0 0 0 0
+	decoration
+	visible 1
+	}
+
+itemDef	{
+	name mapshit
+	type 4
+	text "Map: "
+	cvar "ui_scoremap"
+	rect 270 160 128 10
+	textscale .2
+	textstyle 6
+	textalign 0
+	textaligny 10
+	forecolor 1 1 1 1
+	backcolor 0 0 0 0
+	decoration
+	visible 1
+	}
+
+itemDef	{
+	name fraglimit
+	type 4
+	text "Frag limit: "
+	cvar "ui_fraglimit"
+	ownerdrawflag UI_SHOW_ANYNONTEAMGAME
+	rect 270 180 128 10
+	textscale .2
+	textstyle 6
+	textalign 0
+	textaligny 10
+	forecolor 1 1 1 1
+	backcolor 0 0 0 0
+	decoration
+	visible 1
+	}
+
+itemDef	{
+	name caplimit
+	type 4
+	text "Capture limit: "
+	cvar "ui_capturelimit"
+	ownerdrawflag UI_SHOW_ANYTEAMGAME
+	rect 270 180 128 10
+	textscale .2
+	textstyle 6
+	textalign 0
+	textaligny 10
+	forecolor 1 1 1 1
+	backcolor 0 0 0 0
+	decoration
+	visible 1
+	}
+
+itemDef	{
+	name time
+	text "Time to Beat: "
+	ownerdraw UI_MAP_TIMETOBEAT
+	rect 270 200 128 10
+	textscale .2
+	textstyle 6
+	textalign 0
+	textaligny 10
+	forecolor 1 1 1 1
+	backcolor 0 0 0 0
+	decoration
+	visible 1
+	}
+
+itemDef	{
+	name skill
+	type 9
+	text "Skill: "
+	cvar "g_spSkill"
+	rect 270 220 128 10
+	textscale .2
+	textstyle 6
+	textalign 0
+	textaligny 10
+	forecolor 1 1 1 1
+	backcolor 0 0 0 0
+	decoration
+	visible 1
+	}
+
+itemDef	{
+	name gscore
+	type 9
+	text "Map Score: "
+	cvar "ui_scoreTeam2"
+	rect 270 260 128 10
+	textscale .2
+	textstyle 6
+	textalign 0
+	textaligny 10
+	forecolor 1 1 1 1
+	backcolor 0 0 0 0
+	decoration
+	visible 1
+	}
+
+itemDef	{
+	name gtime
+	type 9
+	text "Time: "
+	cvar "ui_scoreTime2"
+	rect 270 280 128 10
+	textscale .2
+	textstyle 6
+	textalign 0
+	textaligny 10
+	forecolor 1 1 1 1
+	backcolor 0 0 0 0
+	decoration
+	visible 1
+	}
+
+itemDef	{
+	name bscore
+	type 9
+	text "Score: "
+	cvar "ui_scoreBase2"
+	rect 270 300 128 10
+	textscale .2
+	textstyle 6
+	textalign 0
+	textaligny 10
+	forecolor 1 1 1 1
+	backcolor 0 0 0 0
+	decoration
+	visible 1
+	}
+
+itemDef	{
+	name tbonus
+	type 9
+	text "Time Bonus: "
+	cvar "ui_scoreTimeBonus2"
+	rect 270 320 128 10
+	textscale .2
+	textstyle 6
+	textalign 0
+	textaligny 10
+	forecolor 1 1 1 1
+	backcolor 0 0 0 0
+	decoration
+	visible 1
+	}
+
+itemDef	{
+	name sobonus
+	type 9
+	text "Shutout Bonus: "
+	cvar "ui_scoreShutoutBonus2"
+	rect 270 340 128 10
+	textscale .2
+	textstyle 6
+	textalign 0
+	textaligny 10
+	forecolor 1 1 1 1
+	backcolor 0 0 0 0
+	decoration
+	visible 1
+	}
+
+itemDef	{
+	name skbonus
+	type 9
+	text "Skill Bonus"
+	cvar "ui_scoreSkillBonus2"
+	rect 270 360 128 10
+	textscale .2
+	textstyle 6
+	textalign 0
+	textaligny 10
+	forecolor 1 1 1 1
+	backcolor 0 0 0 0
+	decoration
+	visible 1
+	}
+
+itemDef	{
+	name ascore
+	type 9
+	text "Total Score: "
+	cvar "ui_scoreScore2"
+	rect 270 380 128 10
+	textscale .2
+	textstyle 6
+	textalign 0
+	textaligny 10
+	forecolor 1 1 1 1
+	backcolor 0 0 0 0
+	decoration
+	visible 1
+	}
+
+itemDef	{
+	name newhighscoreshit
+	text "New High Score"
+	ownerdrawflag UI_SHOW_NEWHIGHSCORE
+	rect 320 80 128 10
+	textscale .3
+	textstyle 1
+	textalign 1
+	textaligny 10
+	forecolor 1 0.847 0 0.7
+	decoration
+	visible 1
+	}
+
+itemDef	{
+	name assist
+	style 3
+	background "ui/assets/medal_assist.tga"
+	ownerdrawflag UI_SHOW_ANYTEAMGAME
+	rect 150 130 25 25
+	type 1
+	border 1
+	bordercolor MP_BOX_BORDER
+	visible 1
+	mouseenter { setcolor forecolor 1 1 1 1; }
+	mouseexit { setcolor forecolor 1 1 1 0; }
+	action	{
+		exec "play sound/feedback/assist.wav"
+		}
+	}
+
+itemDef	{
+	name perfect
+	style 3
+	background "ui/assets/medal_perfect.tga"
+	ownerdrawflag UI_SHOW_ANYNONTEAMGAME
+	rect 150 130 25 25
+	type 1
+	border 1
+	bordercolor MP_BOX_BORDER
+	visible 1
+	action	{
+		exec "play sound/feedback/perfect.wav"
+		}
+	}
+
+itemDef	{
+	name tsissa
+	type 4
+	style 3
+	background "ui/assets/medal_assist.tga"
+	ownerdrawflag UI_SHOW_ANYTEAMGAME
+	cvar "ui_scoreAssists2"
+	text ""
+	textscale .2
+	forecolor 1 1 1 1
+	textalign 1
+	textalignx 13
+	textaligny 35
+	rect 150 130 25 25
+	border 1
+	bordercolor MP_BOX_BORDER
+	visible 1
+	action	{
+		exec "play sound/feedback/assist.wav"
+		}
+	}
+
+itemDef	{
+	name tcefrep
+	type 4
+	style 3
+	background "ui/assets/medal_perfect.tga"
+	ownerdrawflag UI_SHOW_ANYNONTEAMGAME
+	cvar "ui_scorePerfect2"
+	text ""
+	textscale .2
+	forecolor 1 1 1 1
+	textalign 1
+	textalignx 13
+	textaligny 35
+	rect 150 130 25 25
+	border 1
+	bordercolor MP_BOX_BORDER
+	visible 1
+	action	{
+		exec "play sound/feedback/perfect.wav"
+		}
+	}
+
+itemDef	{
+	name accuracy
+	style 3
+	background "ui/assets/medal_accuracy.tga"
+	rect 150 170 25 25
+	type 1
+	border 1
+	bordercolor MP_BOX_BORDER
+	visible 1
+	action	{
+		exec "play sound/feedback/accuracy.wav"
+		}
+	}
+
+itemDef	{
+	name ycarucca
+	type 4
+	style 3
+	background "ui/assets/medal_accuracy.tga"
+	rect 150 170 25 25
+	cvar "ui_scoreAccuracy2"
+	text ""
+	forecolor 1 1 1 1
+	textscale .2
+	textalign 1
+	textalignx 13
+	textaligny 35
+	border 1
+	bordercolor MP_BOX_BORDER
+	visible 1
+	action	{
+		exec "play sound/feedback/accuracy.wav"
+		}
+	}
+
+itemDef	{
+	name ehxcsellent
+	style 3
+	background "ui/assets/medal_excellent.tga"
+	rect 150 210 25 25
+	type 1
+	border 1
+	bordercolor MP_BOX_BORDER
+	visible 1
+	mouseenter { setcolor forecolor 1 1 1 1; }
+	action	{
+		exec "play sound/feedback/excellent.wav"
+		}
+	}
+
+itemDef	{
+	name tnellescxhe
+	type 4
+	style 3
+	background "ui/assets/medal_excellent.tga"
+	rect 150 210 25 25
+	cvar "ui_scoreExcellents2"
+	text ""
+	forecolor 1 1 1 1
+	textscale .2
+	textalign 1
+	textalignx 13
+	textaligny 35
+	border 1
+	bordercolor MP_BOX_BORDER
+	visible 1
+	action	{
+		exec "play sound/feedback/excellent.wav"
+		}
+	}
+
+itemDef	{
+	name gauntlet
+	style 3
+	background "ui/assets/medal_gauntlet.tga"
+	rect 150 250 25 25
+	type 1
+	border 1
+	bordercolor MP_BOX_BORDER
+	visible 1
+	action	{
+		exec "play sound/feedback/gauntlet.wav"
+		}
+	}
+
+itemDef	{
+	name teltnuag
+	type 4
+	style 3
+	background "ui/assets/medal_gauntlet.tga"
+	rect 150 250 25 25
+	cvar "ui_scoreGauntlets2"
+	text ""
+	forecolor 1 1 1 1	
+	textscale .2
+	textalign 1
+	textalignx 13
+	textaligny 35
+	border 1
+	bordercolor MP_BOX_BORDER
+	visible 1
+	action	{
+		exec "play sound/feedback/gauntlet.wav"
+		}
+	}
+
+itemDef	{
+	name impressive
+	style 3
+	background "ui/assets/medal_impressive.tga"
+	rect 150 290 25 25
+	type 1
+	border 1
+	bordercolor MP_BOX_BORDER
+	visible 1
+	action	{
+		exec "play sound/feedback/impressive.wav"
+		}
+	}
+
+itemDef	{
+	name evisserpmi
+	type 4
+	style 3
+	background "ui/assets/medal_impressive.tga"
+	rect 150 290 25 25
+	cvar "ui_scoreImpressives2"
+	text ""
+	textscale .2
+	forecolor 1 1 1 1
+	textalign 1
+	textalignx 13
+	textaligny 35
+	border 1
+	bordercolor MP_BOX_BORDER
+	visible 1
+	action	{
+		exec "play sound/feedback/impressive.wav"
+		}
+	}
+
+itemDef	{
+	name defense
+	style 3
+	background "ui/assets/medal_defend.tga"
+	ownerdrawflag UI_SHOW_ANYTEAMGAME
+	rect 150 330 25 25
+	type 1
+	border 1
+	bordercolor MP_BOX_BORDER
+	visible 1
+	action	{
+		exec "play sound/feedback/defense.wav"
+		}
+	}
+
+itemDef	{
+	name esnefed
+	type 4
+	style 3
+	background "ui/assets/medal_defend.tga"
+	ownerdrawflag UI_SHOW_ANYTEAMGAME
+	rect 150 330 25 25
+	cvar "ui_scoreDefends2"
+	text ""
+	forecolor 1 1 1 1
+	textscale .2
+	textalign 1
+	textalignx 13
+	textaligny 35
+	border 1
+	bordercolor MP_BOX_BORDER
+	visible 1
+	action	{
+		exec "play sound/feedback/defense.wav"
+		}
+	}
+
+itemDef	{
+	name capture
+	type 4
+	style 3
+	background "ui/assets/medal_capture.tga"
+	ownerdrawflag UI_SHOW_ANYTEAMGAME
+	rect 150 370 25 25
+	cvar "ui_scoreCaptures2"
+	text ""
+	textscale .2
+	forecolor 1 1 1 1
+	textalign 1
+	textalignx 13
+	textaligny 35
+	border 1
+	bordercolor MP_BOX_BORDER
+	visible 1
+	}
+
+
+}
+}
+

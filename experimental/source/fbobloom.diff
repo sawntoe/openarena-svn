@@ -1,0 +1,394 @@
+Index: code/sdl/sdl_glimp.c
+===================================================================
+--- code/sdl/sdl_glimp.c	(revision 1220)
++++ code/sdl/sdl_glimp.c	(working copy)
+@@ -85,6 +85,37 @@
+ void (APIENTRYP qglLockArraysEXT) (GLint first, GLsizei count);
+ void (APIENTRYP qglUnlockArraysEXT) (void);
+ 
++//added framebuffer extensions
++void (APIENTRYP qglGenFramebuffers )(GLsizei, GLuint *);
++void (APIENTRYP qglBindFramebuffer )(GLenum, GLuint);
++void (APIENTRYP qglGenRenderbuffers )(GLsizei, GLuint *);
++void (APIENTRYP qglBindRenderbuffer )(GLenum, GLuint);
++void (APIENTRYP qglRenderbufferStorage )(GLenum, GLenum, GLsizei, GLsizei);
++void (APIENTRYP qglFramebufferRenderbuffer )(GLenum, GLenum, GLenum, GLuint);
++void (APIENTRYP qglFramebufferTexture2D )(GLenum, GLenum, GLenum, GLuint, GLint);
++GLenum (APIENTRYP qglCheckFramebufferStatus )(GLenum);
++void (APIENTRYP qglDeleteFramebuffers )(GLsizei, const GLuint *);
++void (APIENTRYP qglDeleteRenderbuffers )(GLsizei, const GLuint *);
++
++//added fragment/vertex program extensions
++void (APIENTRYP qglAttachShader) (GLuint, GLuint);
++void (APIENTRYP qglBindAttribLocation) (GLuint, GLuint, const GLchar *);
++void (APIENTRYP qglCompileShader) (GLuint);
++GLuint (APIENTRYP qglCreateProgram) (void);
++GLuint (APIENTRYP qglCreateShader) (GLenum);
++void (APIENTRYP qglDeleteProgram) (GLuint);
++void (APIENTRYP qglDeleteShader) (GLuint);
++void (APIENTRYP qglShaderSource) (GLuint, GLsizei, const GLchar* *, const GLint *);
++void (APIENTRYP qglLinkProgram) (GLuint);
++void (APIENTRYP qglUseProgram) (GLuint);	
++GLint (APIENTRYP qglGetUniformLocation) (GLuint, const GLchar *);
++void (APIENTRYP qglUniform1f) (GLint, GLfloat);
++void (APIENTRYP qglUniform2f) (GLint, GLfloat, GLfloat);
++void (APIENTRYP qglUniform1i) (GLint, GLint);
++void (APIENTRYP qglGetProgramiv) (GLuint, GLenum, GLint *);
++void (APIENTRYP qglGetProgramInfoLog) (GLuint, GLsizei, GLsizei *, GLchar *);
++void (APIENTRYP qglGetShaderiv) (GLuint, GLenum, GLint *);
++void (APIENTRYP qglGetShaderInfoLog) (GLuint, GLsizei, GLsizei *, GLchar *);
+ /*
+ ===============
+ GLimp_Shutdown
+@@ -96,7 +127,7 @@
+ 
+ 	SDL_QuitSubSystem( SDL_INIT_VIDEO );
+ 	screen = NULL;
+-
++	
+ 	Com_Memset( &glConfig, 0, sizeof( glConfig ) );
+ 	Com_Memset( &glState, 0, sizeof( glState ) );
+ }
+@@ -475,6 +506,96 @@
+ 	{
+ 		ri.Printf( PRINT_ALL, "...GL_EXT_texture_filter_anisotropic not found\n" );
+ 	}
++
++	qglGenFramebuffers = NULL;
++	qglBindFramebuffer = NULL;
++	qglGenRenderbuffers = NULL;
++	qglBindRenderbuffer = NULL;
++	qglRenderbufferStorage = NULL;
++	qglFramebufferRenderbuffer = NULL;
++	qglFramebufferTexture2D = NULL;
++	qglCheckFramebufferStatus = NULL;
++	qglDeleteFramebuffers = NULL;
++	qglDeleteRenderbuffers =NULL;
++			//added fragment/vertex program extensions
++	qglAttachShader = NULL;
++	qglBindAttribLocation = NULL;
++	qglCompileShader = NULL;
++	qglCreateProgram = NULL;
++	qglCreateShader = NULL;
++	qglDeleteProgram = NULL;
++	qglDeleteShader = NULL;
++	qglShaderSource = NULL;
++	qglLinkProgram = NULL;
++	qglUseProgram =NULL;
++	qglGetUniformLocation = NULL;
++	qglUniform1f = NULL;
++	qglUniform2f = NULL;
++	qglUniform1i = NULL;
++	qglGetProgramiv = NULL;
++	qglGetProgramInfoLog = NULL;
++	qglGetShaderiv =NULL;
++	qglGetShaderInfoLog = NULL;
++			
++	framebufferSupported = qfalse;
++	glslSupported = qfalse;
++	if ( strstr( glConfig.extensions_string, "GL_EXT_framebuffer_object" ) &&
++		 strstr( glConfig.extensions_string, "GL_ARB_texture_non_power_of_two" ))
++	{
++		ri.Printf( PRINT_ALL, "...using GL_EXT_framebuffer_object\n" );
++		framebufferSupported = qtrue;
++		qglGenFramebuffers = ( void (APIENTRY *  )(GLsizei, GLuint *) ) SDL_GL_GetProcAddress( "glGenFramebuffersEXT");
++		qglBindFramebuffer = ( void (APIENTRY *  )(GLenum, GLuint) ) SDL_GL_GetProcAddress( "glBindFramebufferEXT");
++		qglGenRenderbuffers = ( void (APIENTRY *  )(GLsizei, GLuint *) ) SDL_GL_GetProcAddress( "glGenRenderbuffersEXT");
++		qglBindRenderbuffer = ( void (APIENTRY *  )(GLenum, GLuint) ) SDL_GL_GetProcAddress( "glBindRenderbufferEXT");
++		qglRenderbufferStorage = ( void (APIENTRY *  )(GLenum, GLenum, GLsizei, GLsizei) ) SDL_GL_GetProcAddress( "glRenderbufferStorageEXT");
++		qglFramebufferRenderbuffer = ( void (APIENTRY *  )(GLenum, GLenum, GLenum, GLuint) ) SDL_GL_GetProcAddress( "glFramebufferRenderbufferEXT");
++		qglFramebufferTexture2D = ( void (APIENTRY *  )(GLenum, GLenum, GLenum, GLuint, GLint) ) SDL_GL_GetProcAddress( "glFramebufferTexture2DEXT");
++		qglCheckFramebufferStatus = ( GLenum (APIENTRY *)(GLenum) ) SDL_GL_GetProcAddress( "glCheckFramebufferStatusEXT");
++		qglDeleteFramebuffers = ( void (APIENTRY * )(GLsizei, const GLuint *) ) SDL_GL_GetProcAddress( "glDeleteFramebuffersEXT");
++		qglDeleteRenderbuffers = ( void (APIENTRY * )(GLsizei, const GLuint *) ) SDL_GL_GetProcAddress( "glDeleteRenderbuffersEXT");
++	
++		if ( !strstr( glConfig.extensions_string, "GL_ARB_depth_texture" ) )  {
++			ri.Printf( PRINT_WARNING, "WARNING: GL_ARB_depth_texture is missing\n");
++		}
++		if (	!strstr( glConfig.extensions_string, "GL_EXT_packed_depth_stencil" )  || 
++				!strstr( glConfig.extensions_string, "GL_NV_packed_depth_stencil" ) ) {
++			ri.Printf( PRINT_WARNING, "WARNING: packed_depth_stencil is missing\n");
++		}
++	
++	}
++	//added fragment/vertex program extensions
++	if ( strstr( glConfig.extensions_string, "GL_ARB_fragment_shader" ) && 
++		 strstr( glConfig.extensions_string, "GL_ARB_vertex_program" ) &&
++		 strstr( glConfig.extensions_string, "GL_ARB_vertex_shader" ) &&
++		 strstr( glConfig.extensions_string, "GL_ARB_fragment_program" ) &&
++		 strstr( glConfig.extensions_string, "GL_ARB_shading_language_100" ))
++	{
++		ri.Printf( PRINT_ALL, "...using GL_ARB_fragment_program\n" );
++		ri.Printf( PRINT_ALL, "...using GL_ARB_vertex_program\n" );
++		ri.Printf( PRINT_ALL, "...using GL_ARB_shading_language_100\n" );
++		glslSupported = qtrue;
++		qglAttachShader = ( void (APIENTRY * ) (GLuint, GLuint) ) SDL_GL_GetProcAddress( "glAttachShader");
++		qglBindAttribLocation = ( void (APIENTRY * ) (GLuint, GLuint, const GLchar *) ) SDL_GL_GetProcAddress( "glBindAttribLocation");
++		qglCompileShader = ( void (APIENTRY * ) (GLuint) ) SDL_GL_GetProcAddress( "glCompileShader");
++		qglCreateProgram = ( GLuint (APIENTRY * ) (void) ) SDL_GL_GetProcAddress( "glCreateProgram");
++		qglCreateShader = ( GLuint (APIENTRY * ) (GLenum) ) SDL_GL_GetProcAddress( "glCreateShader");
++		qglDeleteProgram = ( void (APIENTRY * ) (GLuint) ) SDL_GL_GetProcAddress( "glDeleteProgram");
++		qglDeleteShader = ( void (APIENTRY * ) (GLuint) ) SDL_GL_GetProcAddress( "glDeleteShader");
++		qglShaderSource = ( void (APIENTRY * ) (GLuint, GLsizei, const GLchar* *, const GLint *) ) SDL_GL_GetProcAddress( "glShaderSource");
++		qglLinkProgram = ( void (APIENTRY * ) (GLuint) ) SDL_GL_GetProcAddress( "glLinkProgram");
++		qglUseProgram = ( void (APIENTRY * ) (GLuint) ) SDL_GL_GetProcAddress( "glUseProgram");
++		qglGetUniformLocation = ( GLint (APIENTRY * ) (GLuint, const GLchar *) ) SDL_GL_GetProcAddress( "glGetUniformLocation");
++		qglUniform1f = ( void (APIENTRY * ) (GLint, GLfloat) ) SDL_GL_GetProcAddress( "glUniform1f");
++		qglUniform2f = ( void (APIENTRY * ) (GLint, GLfloat, GLfloat) ) SDL_GL_GetProcAddress( "glUniform2f");
++		qglUniform1i = ( void (APIENTRY * ) (GLint, GLint) ) SDL_GL_GetProcAddress( "glUniform1i");
++		qglGetProgramiv = ( void (APIENTRY * ) (GLuint, GLenum, GLint *) ) SDL_GL_GetProcAddress( "glGetProgramiv");
++		qglGetProgramInfoLog = ( void (APIENTRY * ) (GLuint, GLsizei, GLsizei *, GLchar *) ) SDL_GL_GetProcAddress( "glGetProgramInfoLog");
++		qglGetShaderiv = ( void (APIENTRY * ) (GLuint, GLenum, GLint *) ) SDL_GL_GetProcAddress( "glGetShaderiv");
++		qglGetShaderInfoLog = ( void (APIENTRY * ) (GLuint, GLsizei, GLsizei *, GLchar *) ) SDL_GL_GetProcAddress( "glGetShaderInfoLog");
++			
++	}
++	
+ }
+ 
+ #define R_MODE_FALLBACK 3 // 640 * 480
+Index: code/renderer/tr_local.h
+===================================================================
+--- code/renderer/tr_local.h	(revision 1220)
++++ code/renderer/tr_local.h	(working copy)
+@@ -975,6 +975,10 @@
+ // the glconfig_t struct.
+ extern qboolean		textureFilterAnisotropic;
+ extern int		maxAnisotropy;
++
++//same as above
++extern qboolean	framebufferSupported;
++extern qboolean	glslSupported;
+                 
+ 
+ //
+@@ -1103,6 +1107,18 @@
+ 
+ extern	cvar_t	*r_GLlibCoolDownMsec;
+ 
++extern cvar_t *r_framebuffer;
++extern cvar_t *r_framebuffer_bloom;
++extern cvar_t *r_framebuffer_blur_size;
++extern cvar_t *r_framebuffer_blur_ammount;
++extern cvar_t *r_framebuffer_blur_samples;
++
++extern cvar_t *r_framebuffer_bloom_sharpness;
++extern cvar_t *r_framebuffer_bloom_brightness;
++
++extern cvar_t *r_framebuffer_rotoscope;
++extern cvar_t *r_framebuffer_rotoscope_zedge;
++
+ //====================================================================
+ 
+ float R_NoiseGet4f( float x, float y, float z, float t );
+@@ -1246,6 +1262,19 @@
+ /*
+ ====================================================================
+ 
++FRAMEBUFFER RENDER PATH SPECIFIC FUNCTIONS AND STATE VARIABLES
++
++====================================================================
++*/
++void 		R_FrameBufferBind( void );
++void 		R_FrameBufferUnBind( void );
++void		R_FrameBuffer_Init( void );
++void		R_FrameBuffer_EndFrame( void );
++void		R_FrameBuffer_Shutdown( void );
++
++/*
++====================================================================
++
+ IMPLEMENTATION SPECIFIC FUNCTIONS
+ 
+ ====================================================================
+Index: code/renderer/tr_init.c
+===================================================================
+--- code/renderer/tr_init.c	(revision 1220)
++++ code/renderer/tr_init.c	(working copy)
+@@ -152,6 +152,18 @@
+ cvar_t	*r_maxpolyverts;
+ int		max_polyverts;
+ 
++cvar_t *r_framebuffer;
++cvar_t *r_framebuffer_bloom;
++cvar_t *r_framebuffer_blur_size;
++cvar_t *r_framebuffer_blur_ammount;
++cvar_t *r_framebuffer_blur_samples;
++
++cvar_t *r_framebuffer_bloom_sharpness;
++cvar_t *r_framebuffer_bloom_brightness;
++
++cvar_t *r_framebuffer_rotoscope;
++cvar_t *r_framebuffer_rotoscope_zedge;
++
+ static void AssertCvarRange( cvar_t *cv, float minVal, float maxVal, qboolean shouldBeIntegral )
+ {
+ 	if ( shouldBeIntegral )
+@@ -1021,6 +1033,17 @@
+ 	r_maxpolys = ri.Cvar_Get( "r_maxpolys", va("%d", MAX_POLYS), 0);
+ 	r_maxpolyverts = ri.Cvar_Get( "r_maxpolyverts", va("%d", MAX_POLYVERTS), 0);
+ 
++	// Framebuffer variables
++	r_framebuffer = ri.Cvar_Get( "r_framebuffer", "0", CVAR_ARCHIVE | CVAR_LATCH);	
++	r_framebuffer_bloom = ri.Cvar_Get( "r_framebuffer_bloom", "0", CVAR_ARCHIVE | CVAR_LATCH);
++	r_framebuffer_blur_size = ri.Cvar_Get( "r_framebuffer_blur_size", "256", CVAR_ARCHIVE | CVAR_LATCH);
++	r_framebuffer_blur_ammount = ri.Cvar_Get( "r_framebuffer_blur_amount", "7", CVAR_ARCHIVE);
++	r_framebuffer_blur_samples = ri.Cvar_Get( "r_framebuffer_blur_samples", "9", CVAR_ARCHIVE | CVAR_LATCH);
++	r_framebuffer_bloom_sharpness = ri.Cvar_Get( "r_framebuffer_bloom_sharpness", "0.75", CVAR_ARCHIVE );
++	r_framebuffer_bloom_brightness = ri.Cvar_Get( "r_framebuffer_bloom_brightness", "0.85", CVAR_ARCHIVE );
++	r_framebuffer_rotoscope = ri.Cvar_Get( "r_framebuffer_rotoscope", "0", CVAR_ARCHIVE | CVAR_LATCH);
++	r_framebuffer_rotoscope_zedge = ri.Cvar_Get( "r_framebuffer_rotoscope_zedge", "0", CVAR_ARCHIVE | CVAR_LATCH);
++
+ 	// make sure all the commands added here are also
+ 	// removed in R_Shutdown
+ 	ri.Cmd_AddCommand( "imagelist", R_ImageList_f );
+@@ -1119,6 +1142,8 @@
+ 
+ 	InitOpenGL();
+ 
++	R_FrameBuffer_Init();
++	
+ 	R_InitImages();
+ 
+ 	R_InitShaders();
+@@ -1163,6 +1188,7 @@
+ 		R_DeleteTextures();
+ 	}
+ 
++	R_FrameBuffer_Shutdown();
+ 	R_DoneFreeType();
+ 
+ 	// shut down platform specific OpenGL stuff
+Index: code/renderer/qgl.h
+===================================================================
+--- code/renderer/qgl.h	(revision 1220)
++++ code/renderer/qgl.h	(working copy)
+@@ -39,7 +39,37 @@
+ extern void (APIENTRYP qglLockArraysEXT) (GLint first, GLsizei count);
+ extern void (APIENTRYP qglUnlockArraysEXT) (void);
+ 
++//added framebuffer extensions
++extern void (APIENTRYP qglGenFramebuffers )(GLsizei, GLuint *);
++extern void (APIENTRYP qglBindFramebuffer )(GLenum, GLuint);
++extern void (APIENTRYP qglGenRenderbuffers )(GLsizei, GLuint *);
++extern void (APIENTRYP qglBindRenderbuffer )(GLenum, GLuint);
++extern void (APIENTRYP qglRenderbufferStorage )(GLenum, GLenum, GLsizei, GLsizei);
++extern void (APIENTRYP qglFramebufferRenderbuffer )(GLenum, GLenum, GLenum, GLuint);
++extern void (APIENTRYP qglFramebufferTexture2D )(GLenum, GLenum, GLenum, GLuint, GLint);
++extern GLenum (APIENTRYP qglCheckFramebufferStatus )(GLenum);
++extern void (APIENTRYP qglDeleteFramebuffers )(GLsizei, const GLuint *);
++extern void (APIENTRYP qglDeleteRenderbuffers )(GLsizei, const GLuint *);
+ 
++//added fragment/vertex program extensions
++extern  void (APIENTRYP qglAttachShader) (GLuint, GLuint);
++extern  void (APIENTRYP qglBindAttribLocation) (GLuint, GLuint, const GLchar *);
++extern  void (APIENTRYP qglCompileShader) (GLuint);
++extern GLuint (APIENTRYP qglCreateProgram) (void);
++extern GLuint (APIENTRYP qglCreateShader) (GLenum);
++extern void (APIENTRYP qglDeleteProgram) (GLuint);
++extern void (APIENTRYP qglDeleteShader) (GLuint);
++extern void (APIENTRYP qglShaderSource) (GLuint, GLsizei, const GLchar* *, const GLint *);
++extern void (APIENTRYP qglLinkProgram) (GLuint);
++extern void (APIENTRYP qglUseProgram) (GLuint);	
++extern GLint (APIENTRYP qglGetUniformLocation) (GLuint, const GLchar *);
++extern void (APIENTRYP qglUniform1f) (GLint, GLfloat);
++extern void (APIENTRYP qglUniform2f) (GLint, GLfloat, GLfloat);
++extern void (APIENTRYP qglUniform1i) (GLint, GLint);
++extern void (APIENTRYP qglGetProgramiv) (GLuint, GLenum, GLint *);
++extern void (APIENTRYP qglGetProgramInfoLog) (GLuint, GLsizei, GLsizei *, GLchar *);
++extern void (APIENTRYP qglGetShaderiv) (GLuint, GLenum, GLint *);
++extern void (APIENTRYP qglGetShaderInfoLog) (GLuint, GLsizei, GLsizei *, GLchar *);
+ //===========================================================================
+ 
+ #define qglAccum glAccum
+@@ -378,3 +408,4 @@
+ #define qglViewport glViewport
+ 
+ #endif
++
+Index: code/renderer/tr_backend.c
+===================================================================
+--- code/renderer/tr_backend.c	(revision 1220)
++++ code/renderer/tr_backend.c	(working copy)
+@@ -1028,7 +1028,7 @@
+ 		ri.Hunk_FreeTempMemory( stencilReadback );
+ 	}
+ 
+-
++	R_FrameBuffer_EndFrame(); //draws our framebuffer if we are using that
+ 	if ( !glState.finishCalled ) {
+ 		qglFinish();
+ 	}
+@@ -1078,11 +1078,16 @@
+ 		case RC_SWAP_BUFFERS:
+ 			data = RB_SwapBuffers( data );
+ 			break;
++		//these two use a hack to let them copy the framebuffer effects too
+ 		case RC_SCREENSHOT:
++			R_FrameBufferUnBind();
+ 			data = RB_TakeScreenshotCmd( data );
++			R_FrameBufferBind();
+ 			break;
+ 		case RC_VIDEOFRAME:
++			R_FrameBufferUnBind();
+ 			data = RB_TakeVideoFrameCmd( data );
++			R_FrameBufferBind();
+ 			break;
+ 
+ 		case RC_END_OF_LIST:
+Index: code/null/null_glimp.c
+===================================================================
+--- code/null/null_glimp.c	(revision 1220)
++++ code/null/null_glimp.c	(working copy)
+@@ -31,7 +31,39 @@
+ void ( * qglLockArraysEXT)( int, int);
+ void ( * qglUnlockArraysEXT) ( void );
+ 
++//added framebuffer extensions
++ void ( * qglGenFramebuffers )(GLsizei, GLuint *);
++ void ( * qglBindFramebuffer )(GLenum, GLuint);
++ void ( * glGenRenderbuffers )(GLsizei, GLuint *);
++ void ( * glBindRenderbuffer )(GLenum, GLuint);
++ void ( * glRenderbufferStorage )(GLenum, GLenum, GLsizei, GLsizei);
++ void ( * glFramebufferRenderbuffer )(GLenum, GLenum, GLenum, GLuint);
++ void ( * glFramebufferTexture2D )(GLenum, GLenum, GLenum, GLuint, GLint);
++ GLenum ( * glCheckFramebufferStatus )(GLenum);
++ void ( * glDeleteFramebuffers )(GLsizei, const GLuint *);
++ void ( * glDeleteRenderbuffers )(GLsizei, const GLuint *);
+ 
++//added fragment/vertex program extensions
++ void ( * glAttachShader) (GLuint, GLuint);
++ void ( * glBindAttribLocation) (GLuint, GLuint, const GLchar *);
++ void ( * glCompileShader) (GLuint);
++GLuint ( * glCreateProgram) (void);
++GLuint ( * glCreateShader) (GLenum);
++void ( * glDeleteProgram) (GLuint);
++void ( * glDeleteShader) (GLuint);
++void ( * glShaderSource) (GLuint, GLsizei, const GLchar* *, const GLint *);
++void ( * glLinkProgram) (GLuint);
++void ( * glUseProgram) (GLuint);	
++GLint ( * glGetUniformLocation) (GLuint, const GLchar *);
++void ( * glUniform1f) (GLint, GLfloat);
++void ( * glUniform2f) (GLint, GLfloat, GLfloat);
++void ( * glUniform1i) (GLint, GLint);
++void ( * glGetProgramiv) (GLuint, GLenum, GLint *);
++void ( * glGetProgramInfoLog) (GLuint, GLsizei, GLsizei *, GLchar *);
++void ( * glGetShaderiv) (GLuint, GLenum, GLint *);
++void ( * glGetShaderInfoLog) (GLuint, GLsizei, GLsizei *, GLchar *);
++
++
+ void		GLimp_EndFrame( void ) {
+ }
+ 
+Index: Makefile
+===================================================================
+--- Makefile	(revision 1216)
++++ Makefile	(working copy)
+@@ -1233,6 +1233,8 @@
+   $(B)/client/tr_sky.o \
+   $(B)/client/tr_surface.o \
+   $(B)/client/tr_world.o \
++  $(B)/client/tr_framebuffer.o \
++  $(B)/client/tr_glslprogs.o \
+   \
+   $(B)/client/sdl_gamma.o \
+   $(B)/client/sdl_input.o \

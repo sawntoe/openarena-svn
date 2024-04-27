@@ -1,0 +1,215 @@
+/*
+===========================================================================
+Copyright (C) 2007 Open Arena Team
+
+This file is part of Open Arena.
+
+Open Arena is free software; you can redistribute it
+and/or modify it under the terms of the GNU General Public License as
+published by the Free Software Foundation; either version 2 of the License,
+or (at your option) any later version.
+
+Open Arena is distributed in the hope that it will be
+useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Open Arena; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+===========================================================================
+*/
+
+#include "ui/menudef.h"
+
+{
+menuDef	{
+	name "audio"
+	visible 0
+	fullscreen 1
+	background MP_BACKGROUND	
+	focusColor MP_FOCUSCOLOR
+	rect 0 0 640 480
+	outOfBoundsClick  
+	style 0
+	onOpen	{ }
+	onEsc	{
+		close audio;
+		open configuration;
+		}
+
+itemDef {
+      	name titleness
+      	text "Audio"
+      	style 0	
+	type 0
+	textstyle 6
+      	textscale 1
+      	rect 0 65 1 1
+      	textalign 0		
+     	textalignx 48 	
+	textaligny 40        
+	forecolor MP_TITLECOLOR
+	visible 1 
+	}
+
+// The Bar of Buttons
+
+itemDef {
+      	name button1
+      	text "Apply"
+      	style 0
+	type 1
+	textstyle 3
+      	textscale 0.3
+      	rect 52 145 163 34
+      	textalign 0		
+     	textalignx 5  	
+	textaligny 20      
+	backcolor 0 0 0 0
+	forecolor MP_TEXTCOLOR
+	visible 1 
+	      action
+      		{
+	        play "ui/assets/select.wav"; 
+		exec "snd_restart";
+	       	open configuration;
+ 		close audio;
+      		}
+	}
+
+itemDef {
+      	name button2
+      	text "Done"
+      	style 0
+	type 1
+	textstyle 3
+      	textscale 0.3
+      	rect 52 177 163 34
+      	textalign 0		
+     	textalignx 5 	
+	textaligny 20   
+	forecolor MP_TEXTCOLOR   
+	visible 1 
+	      action
+      		{
+	        play "ui/assets/select.wav"; 
+		open configuration;
+ 		close audio;
+      		}
+	}
+// the audio controls
+
+itemDef {
+      	name volume
+      	style 0	
+      	text "Sound volume"
+      	style 0	
+	type 0
+	textstyle 6
+      	textscale .25
+      	rect 212 137 1 1
+      	textalign 0		
+     	textalignx 6	
+	textaligny 18        
+	forecolor MP_TEXTCOLOR
+	visible 1 
+    }
+itemDef {
+      	name settin
+      	style 0
+	type ITEM_TYPE_SLIDER
+	text ""
+	cvarfloat "s_volume" 0.7 0 1
+	background "ui/assets/scrollbar"
+	textstyle 6
+      	textscale .24
+      	rect 212 166 150 24
+      	textalign 0		
+     	textalignx 6	
+	textaligny 18        
+       forecolor     MP_TEXTCOLOR
+      backcolor     0.0 0.0 0.0 1
+      outlinecolor  1   0.5   0.01   0.3
+	visible 1 
+    }
+
+
+// MAX PRAYERS
+itemDef {
+      	name maxprayamer
+      	style 0	
+      	text "Music volume:"
+      	style 0	
+	type 0
+	textstyle 6
+      	textscale .25
+      	rect 212 200 1 1
+      	textalign 0		
+     	textalignx 6	
+	textaligny 18        
+	forecolor MP_TEXTCOLOR
+	visible 1 
+    }
+itemDef {
+      	name mussic
+      	style 0
+	type ITEM_TYPE_SLIDER
+	text ""
+	cvarfloat "s_musicvolume" 0.25 0 1
+	background "ui/assets/scrollbar"
+	textstyle 6
+      	textscale .24
+      	rect 212 229 150 24
+      	textalign 0		
+     	textalignx 6	
+	textaligny 18        
+    
+      forecolor     MP_TEXTCOLOR
+      backcolor     0.0 0.0 0.0 1
+      outlinecolor  1   0.5   0.01   0.3
+	visible 1 
+    }
+// other buttons
+
+
+
+itemDef {
+        name openal
+      	style 0	
+      	text "Use OpenAL:"
+ 	cvar "s_useOpenAL"
+	type ITEM_TYPE_YESNO	
+	textstyle 6
+      	textscale .24
+      	rect 212 287 150 24
+      	textalign 0		
+     	textalignx 6	
+	textaligny 18        
+	forecolor MP_TEXTCOLOR
+	visible 1 
+    }
+
+
+// other buttons
+
+itemDef {
+      	name sndrate
+  	
+      	text "Rate:"
+	type ITEM_TYPE_MULTI
+	cvar "s_khz"
+	cvarFloatList { "48000Hz" 48 "44100Hz" 44 "22050Hz" 22 "11025Hz" 11 }
+	textstyle 6
+      	textscale .24
+      	rect 212 310 150 24
+	textalign ITEM_ALIGN_RIGHT
+      	textalign 0		
+     	textalignx 6	
+	textaligny 20        
+	forecolor MP_TEXTCOLOR
+	visible 1 
+    }
+
+
+}
